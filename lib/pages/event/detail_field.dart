@@ -15,7 +15,7 @@ class DetailsField extends StatelessWidget {
           'Inspection Details',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 16,
           runSpacing: 16,

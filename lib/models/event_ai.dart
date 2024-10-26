@@ -85,7 +85,7 @@ class EventAi {
       vidTop: json['VidTop'] as String?,
       vidTractor: json['VidTractor'] as String?,
       vidTrailer: json['VidTrailer'] as String?,
-      isDamage: json['listDmg'].isEmpty,
+      isDamage: !json['listDmg'].isEmpty,
     );
   }
 
