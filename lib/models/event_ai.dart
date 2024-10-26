@@ -1,38 +1,46 @@
 import 'package:flutter/foundation.dart';
+import 'package:smart_gate_web/models/event_web.dart';
 
 @immutable
 class EventAi {
+  final String eventId;
   final int checkPointId;
   final String? containerCode1;
   final String? containerCode2;
-  final String? imgDoor1;
-  final String? imgDoor2;
-  final String? imgFront1;
-  final String? imgFront2;
-  final String? imgLeft1;
-  final String? imgLeft2;
-  final String? imgRight1;
-  final String? imgRight2;
-  final String? imgTop1;
-  final String? imgTop2;
-  final String? imgTractor;
-  final String? imgTrailer;
   final String timeInOut;
   final String? tractorLicensePlate;
   final String? trailerLicensePlate;
-  final String? vidBehind;
-  final String? vidFront;
-  final String? vidLeft;
-  final String? vidRight;
-  final String? vidTop;
-  final String? vidTractor;
-  final String? vidTrailer;
   final bool isDamage;
 
-  const EventAi({
+  String? imgDoor1;
+  String? imgDoor2;
+  String? imgFront1;
+  String? imgFront2;
+  String? imgLeft1;
+  String? imgLeft2;
+  String? imgRight1;
+  String? imgRight2;
+  String? imgTop1;
+  String? imgTop2;
+  String? imgTractor;
+  String? imgTrailer;
+  String? vidBehind;
+  String? vidFront;
+  String? vidLeft;
+  String? vidRight;
+  String? vidTop;
+  String? vidTractor;
+  String? vidTrailer;
+
+  EventAi({
+    required this.eventId,
     required this.checkPointId,
     required this.containerCode1,
-    this.containerCode2,
+    required this.timeInOut,
+    required this.tractorLicensePlate,
+    required this.trailerLicensePlate,
+    required this.isDamage,
+    required this.containerCode2,
     this.imgDoor1,
     this.imgDoor2,
     this.imgFront1,
@@ -45,9 +53,6 @@ class EventAi {
     this.imgTop2,
     this.imgTractor,
     this.imgTrailer,
-    required this.timeInOut,
-    required this.tractorLicensePlate,
-    required this.trailerLicensePlate,
     this.vidBehind,
     this.vidFront,
     this.vidLeft,
@@ -55,11 +60,11 @@ class EventAi {
     this.vidTop,
     this.vidTractor,
     this.vidTrailer,
-    required this.isDamage,
   });
 
   factory EventAi.fromJson(Map<String, dynamic> json) {
     return EventAi(
+      eventId: json['EventId'] as String,
       checkPointId: json['CheckPointId'] as int,
       containerCode1: json['ContainerCode1'] as String?,
       containerCode2: json['ContainerCode2'] as String?,
@@ -91,6 +96,7 @@ class EventAi {
 
   Map<String, dynamic> toJson() {
     return {
+      'EventId': eventId,
       'CheckPointId': checkPointId,
       'ContainerCode1': containerCode1,
       'ContainerCode2': containerCode2,
@@ -119,4 +125,17 @@ class EventAi {
       'isDamage': isDamage,
     };
   }
+}
+
+EventAi eventWebToEventAi(EventWeb eventWeb) {
+  return EventAi(
+    eventId: eventWeb.id,
+    checkPointId: 0, // Assuming a default value or a way to determine this
+    containerCode1: eventWeb.containerSizeTypeCode1,
+    containerCode2: eventWeb.containerSizeTypeCode2,
+    timeInOut: eventWeb.timeInOutFormat,
+    tractorLicensePlate: eventWeb.tractorLicensePlate,
+    trailerLicensePlate: eventWeb.trailerLicensePlate,
+    isDamage: eventWeb.isDamage,
+  );
 }

@@ -27,7 +27,7 @@ class MQTTClient {
     client!.port = port;
 
     client!.logging(on: true);
-    client!.keepAlivePeriod = 20;
+    client!.keepAlivePeriod = 60;
 
     client!.onDisconnected = _onDisconnected;
     client!.onConnected = _onConnected;
