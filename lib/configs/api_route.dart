@@ -2,15 +2,8 @@
 String baseUrl = "https://crd.atin.vn";
 
 //URI
-//GET
-String uriGetCamera = "/Service/api/Device";
-String uriGetCheckPoint = "/Service/api/checkPoint?page=1&itemsPerPage=999";
-String uriGetLane = "/Service/api/lane";
-String uriGetCameraFunction = "/Service/api/camera-function";
-String uriGetBlackList = "/Service/api/plate-in-blacklist";
-
-//POST
-String uriPostSeal = "/api/v1/recognize/seal";
+String uriGetEvent = "/Service/api/historyInOutAreaPort";
+String uriGetImageVideoInOut = "/Service/api/imageVideoInOut";
 
 //auth
 String uriAuth = "/Service/api/token/auth";
@@ -29,17 +22,12 @@ Map<String, String> bodyRefreshToken = {
   "refresh_token": "",
 };
 
-//URL
-
 //AUTH
 String urlAuth = "$baseUrl$uriAuth";
 
 //DATA
-String urlGetCamera = "$baseUrl$uriGetCamera";
-String urlGetCheckPoint = "$baseUrl$uriGetCheckPoint";
-String urlGetLane = "$baseUrl$uriGetLane";
-String urlGetCameraFunction = "$baseUrl$uriGetCameraFunction";
-String urlGetBlackList = "$baseUrl$uriGetBlackList";
+String urlGetEvent = "$baseUrl$uriGetEvent";
+String urlGetImageVideoInOut = "$baseUrl$uriGetImageVideoInOut";
 
 //FILE SERVICE
 String urlFileService = "$baseUrl/Service/files";

@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:smart_gate_web/models/event_ai.dart';
 import 'package:smart_gate_web/networks/mqtt.dart';
+import 'package:smart_gate_web/pages/event/history_field.dart';
 import 'detail_field.dart';
 import 'image_field.dart';
 
@@ -22,7 +22,7 @@ class _EventViewState extends State<EventView>
   static const int _port = 9001;
   static const String _username = 'admin';
   static const String _password = "admin";
-  static const String _topic = "Event/Container";
+  static const String _topic = "Test/Container";
   static const int _checkpointId = 2079;
   final String _clientId = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -56,7 +56,6 @@ class _EventViewState extends State<EventView>
       if (newEventAi.checkPointId == _checkpointId) {
         setState(() {
           currentEventAi = newEventAi;
-          print(currentEventAi?.toJson());
         });
       }
     } catch (e) {
@@ -65,19 +64,32 @@ class _EventViewState extends State<EventView>
     }
   }
 
+  void onViewEvent(EventAi event) {
+    setState(() {
+      currentEventAi = event;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 flex: 2,
-                child: DetailsField(event: currentEventAi),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DetailsField(event: currentEventAi),
+                    const SizedBox(height: 16),
+                    HistoryField(onViewEvent: onViewEvent),
+                  ],
+                ),
               ),
               const SizedBox(width: 32),
               Expanded(

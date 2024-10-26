@@ -11,9 +11,11 @@ class DetailsField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Inspection Details',
-          style: Theme.of(context).textTheme.titleLarge,
+        Center(
+          child: Text(
+            'Inspection Details',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
         const SizedBox(height: 16),
         Wrap(
@@ -27,7 +29,8 @@ class DetailsField extends StatelessWidget {
                 event?.trailerLicensePlate ?? 'unknown'),
             buildInfoField('CONT 1', event?.containerCode1 ?? 'unknown'),
             buildInfoField('CONT 2', event?.containerCode2 ?? 'unknown'),
-            buildDamageField('Damage', event?.isDamage ?? false ? 'Yes' : 'No'),
+            buildDamageField('Damage', event?.isDamage ?? false ? 'Yes' : 'No',
+                isDamage: event?.isDamage ?? false),
           ],
         ),
       ],

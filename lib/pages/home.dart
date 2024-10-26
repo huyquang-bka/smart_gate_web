@@ -32,10 +32,6 @@ class _HomePageState extends State<HomePage>
         linkLocation: 'http://192.168.1.199:18080/CHP_stream/front/hls.m3u8'),
     Camera(
         id: '5',
-        deviceName: 'Left',
-        linkLocation: 'http://192.168.1.199:18080/CHP_stream/left/hls.m3u8'),
-    Camera(
-        id: '6',
         deviceName: 'Right',
         linkLocation: 'http://192.168.1.199:18080/CHP_stream/right/hls.m3u8'),
     Camera(

@@ -1,0 +1,16 @@
+{id: 63fdada6-8d80-4721-90a9-47876347a36a, parentId: 63fdada6-8d80-4721-90a9-47876347a36a,
+timeInOut: 2024-10-26T15:23:15, trailerLicensePlate: 11R08691, tractorLicensePlate: 15C02936,
+containerCode1: null, containerCode2: null, licensePlates: null, processingStatus: 2, isDamage: false,
+sizeTypeCode1: null, containerSizeTypeCode1: null, containerSizeTypeCode2: null, sizeTypeCode2: null,
+managementVehicleType: null, idMonitoringPoint: 0, idContainerSizeClassification: 0, regStatus: null,
+deviceId: null, checkPointStr: LH_CV_Làn thử nghiệm 02, timeInOutFormat: 26/10/2024 15:23,
+damagedConditionStr: Functions.HistoryInOutArea.List.TableForm.Status.No, damagedConditionStrApp:
+Không, processStatusStrApp: Đã xử lý, vehicleTypeNameApp: Xe đầu kéo, vehicleTypeStr: ,
+processStatusStr: Functions.HistoryInOutArea.List.TableForm.ProcessStatus.Processed, containerSizeStr:
+null, regStatusStr: , compId: 1, companyName: HỆ THỐNG SMART CRD, treeLevel: 1, hiddenParentField: 101,
+transCode: 241026152315, userId: 0, sealNumber1: null, sealNumber2: null, imagePath1: null, imagePath2:
+null, laneName: Cổng chính, laneId: 9, vehicleStatus: null, messageTos: null, statusContainer1: null,
+statusContainer2: null, vehicleType: 3, portLocation: 1, damageMiss: null, checkPointId: 2079,
+vehicleTypeName: Functions.HistoryInOutArea2.List.TableForm.Identification.Tractor, portLocationName:
+Functions.HistoryInOutArea2.List.TableForm.Location.In, userIdCheckSeal: null, shipCode: null,
+importFlight: null, userName: null, userCheckSealName: null}
