@@ -29,6 +29,19 @@ class CustomHttpClient {
     return response;
   }
 
+  Future<http.Response> getWithoutToken(String endpoint) async {
+    final url = Uri.parse(endpoint);
+    return http.get(url).timeout(const Duration(seconds: 5));
+  }
+
+  Future<http.Response> postWithoutToken(
+      String endpoint, Map<String, dynamic> body) async {
+    final url = Uri.parse(endpoint);
+    return http
+        .post(url, body: jsonEncode(body))
+        .timeout(const Duration(seconds: 5));
+  }
+
   Future<http.Response> post(String endpoint, Map<String, dynamic> body) async {
     await _initialization;
     final response = await _postRequestWithToken(endpoint, body);

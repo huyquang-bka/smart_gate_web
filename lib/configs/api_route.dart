@@ -1,9 +1,9 @@
 //Main HOST
-String baseUrl = "https://crd.atin.vn";
+// String baseUrl = "https://crd.atin.vn";
+String baseUrl = "http://192.168.1.21:9962";
 
 //URI
-String uriGetEvent = "/Service/api/historyInOutAreaPort";
-String uriGetImageVideoInOut = "/Service/api/imageVideoInOut";
+String uriGetEvent = "/api/v1/container-event";
 
 //auth
 String uriAuth = "/Service/api/token/auth";
@@ -27,7 +27,6 @@ String urlAuth = "$baseUrl$uriAuth";
 
 //DATA
 String urlGetEvent = "$baseUrl$uriGetEvent";
-String urlGetImageVideoInOut = "$baseUrl$uriGetImageVideoInOut";
 
 //FILE SERVICE
-String urlFileService = "$baseUrl/Service/files";
+String urlFileService = "https://crd.atin.vn/Service/files";

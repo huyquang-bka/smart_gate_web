@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_gate_web/auth/auth_service.dart';
-import 'package:smart_gate_web/pages/auth/auth.dart';
 import 'package:smart_gate_web/pages/event/event_view.dart';
 import 'package:smart_gate_web/pages/tabs/camera/camera_view.dart';
 
@@ -60,16 +58,16 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              AuthService.clearAuth();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const AuthPage()));
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       AuthService.clearAuth();
+        //       Navigator.of(context).pushReplacement(
+        //           MaterialPageRoute(builder: (context) => const AuthPage()));
+        //     },
+        //     icon: const Icon(Icons.logout),
+        //   ),
+        // ],
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
