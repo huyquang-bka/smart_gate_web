@@ -24,6 +24,7 @@ class _HistoryFieldState extends State<HistoryField> {
   static const itemsPerPage = 10;
   bool isLastPage = false;
   bool isLoading = false;
+  String? selectedEventId; // Track selected event ID
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _HistoryFieldState extends State<HistoryField> {
         isLoading = false;
       });
     } catch (e) {
-      print("Error when fetch events: $e");
+      print("Error when fetching events: $e");
       setState(() {
         isLoading = false;
       });
@@ -96,6 +97,11 @@ class _HistoryFieldState extends State<HistoryField> {
     final jsonData = jsonDecode(response.body);
     EventImageVideo eventImageVideo = EventImageVideo.fromJson(jsonData);
     updateEventAiWithImageVideo(event, eventImageVideo);
+
+    setState(() {
+      selectedEventId = event.eventId; // Set selected event ID
+    });
+
     widget.onViewEvent(event);
   }
 
@@ -173,7 +179,11 @@ class _HistoryFieldState extends State<HistoryField> {
           return DataRow(
             color: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
-                if (event.isDamage) return Colors.red[100];
+                if (event.eventId == selectedEventId) {
+                  return Colors.blue[100]; // Highlight selected row
+                } else if (event.isDamage) {
+                  return Colors.red[100];
+                }
                 return null;
               },
             ),

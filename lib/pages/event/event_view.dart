@@ -22,7 +22,7 @@ class _EventViewState extends State<EventView>
   static const int _port = 9001;
   static const String _username = 'admin';
   static const String _password = "admin";
-  static const String _topic = "Test/Container";
+  static const String _topic = "Event/Container";
   static const int _checkpointId = 2079;
   final String _clientId = DateTime.now().millisecondsSinceEpoch.toString();
 

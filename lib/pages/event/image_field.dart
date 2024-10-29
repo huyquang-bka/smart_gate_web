@@ -141,9 +141,12 @@ class ImageField extends StatelessWidget {
   Widget buildImageVideoDialog(
       String label, String imagePath, String videoPath, BuildContext context) {
     return Dialog(
-      child: SizedBox(
+      child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
         height: MediaQuery.of(context).size.height * 0.8,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(paddingAll),
+        ),
         child: DefaultTabController(
           length: 2,
           child: Column(
@@ -167,18 +170,32 @@ class ImageField extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     // Image Tab
-                    Center(
-                      child: imagePath.isNotEmpty
-                          ? Image.network(
-                              "$urlFileService/$imagePath",
-                              fit: BoxFit.contain,
-                            )
-                          : const Icon(Icons.image,
-                              size: 200, color: Colors.grey),
+                    Padding(
+                      padding: const EdgeInsets.all(paddingAll),
+                      child: Center(
+                        child: imagePath.isNotEmpty
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  "$urlFileService/$imagePath",
+                                  fit: BoxFit.contain,
+                                ),
+                              )
+                            : const Icon(Icons.image,
+                                size: 200, color: Colors.grey),
+                      ),
                     ),
                     // Video Tab
                     videoPath.isNotEmpty
-                        ? VideoPlayer(videoPath: "$urlFileService/$videoPath")
+                        ? Padding(
+                            padding: const EdgeInsets.all(paddingAll),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: VideoPlayer(
+                                videoPath: "$urlFileService/$videoPath",
+                              ),
+                            ),
+                          )
                         : const Center(child: Text('No video available')),
                   ],
                 ),
