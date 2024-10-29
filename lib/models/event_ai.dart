@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:smart_gate_web/models/event_web.dart';
 
 @immutable
+// ignore: must_be_immutable
 class EventAi {
   final String eventId;
   final int checkPointId;
