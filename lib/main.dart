@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:smart_gate_web/middleware/auth_middleware.dart';
-import 'package:smart_gate_web/pages/auth/auth.dart';
 import 'package:smart_gate_web/pages/home.dart';
-import 'package:smart_gate_web/pages/login/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,17 +26,12 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.white,
         useMaterial3: true,
       ),
-      home: const AuthPage(),
+      home: const HomePage(),
       routes: {
         '/home': (context) {
           AuthMiddleware.checkAuth(context, const HomePage());
           return const HomePage();
         },
-        '/login': (context) {
-          AuthMiddleware.checkAuth(context, const LoginPage());
-          return const LoginPage();
-        },
-        '/auth': (context) => const AuthPage(),
       },
     );
   }

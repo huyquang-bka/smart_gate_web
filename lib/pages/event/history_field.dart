@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_gate_web/configs/api_route.dart';
-import 'package:smart_gate_web/helpers/utils.dart';
 import 'package:smart_gate_web/models/event_ai.dart';
-import 'package:smart_gate_web/models/event_image_video.dart';
-import 'package:smart_gate_web/models/event_web.dart';
-import 'package:smart_gate_web/networks/http.dart';
+import 'package:smart_gate_web/networks/no-auth-http.dart';
 
 class HistoryField extends StatefulWidget {
   const HistoryField({super.key, required this.onViewEvent});
@@ -24,6 +21,7 @@ class _HistoryFieldState extends State<HistoryField> {
   static const itemsPerPage = 10;
   bool isLastPage = false;
   bool isLoading = false;
+  bool isError = false;
   String? selectedEventId; // Track selected event ID
 
   @override
@@ -36,18 +34,22 @@ class _HistoryFieldState extends State<HistoryField> {
     setState(() {
       isLoading = true;
     });
-    final url =
-        "$urlGetEvent?sortBy=timeInOut&sortDesc=true&page=$currentPage&itemsPerPage=$itemsPerPage&filterCheckPoint=2079";
+    String url =
+        "$urlGetEvent?page=$currentPage&page_size=$itemsPerPage&checkpoint_id=2079";
+    if (isError) {
+      url =
+          "$urlGetEvent?page=$currentPage&page_size=$itemsPerPage&checkpoint_id=2079&is_error=$isError";
+    }
     try {
-      final response = await customHttpClient.get(url);
+      final response = await noAuthHttpClient.get(url);
       final jsonData = jsonDecode(response.body);
-      totalItems = jsonData["totalRows"];
-      totalPage = (totalItems / itemsPerPage).ceil();
-      final List<dynamic> data = jsonData["data"];
-      final List<EventWeb> events =
-          data.map((e) => EventWeb.fromJson(e)).toList();
+      totalItems = jsonData["Total"];
+      totalPage = jsonData["TotalPages"];
+      final List<dynamic> data = jsonData["Items"];
+      final List<EventAi> events =
+          data.map((e) => EventAi.fromJson(e)).toList();
       setState(() {
-        eventsAi = events.map(eventWebToEventAi).toList();
+        eventsAi = events;
         isLastPage = eventsAi.length < itemsPerPage;
         isLoading = false;
       });
@@ -92,12 +94,6 @@ class _HistoryFieldState extends State<HistoryField> {
   }
 
   Future<void> onViewEvent(EventAi event) async {
-    String url = "$urlGetImageVideoInOut/${event.eventId}";
-    final response = await customHttpClient.get(url);
-    final jsonData = jsonDecode(response.body);
-    EventImageVideo eventImageVideo = EventImageVideo.fromJson(jsonData);
-    updateEventAiWithImageVideo(event, eventImageVideo);
-
     setState(() {
       selectedEventId = event.eventId; // Set selected event ID
     });
@@ -120,10 +116,26 @@ class _HistoryFieldState extends State<HistoryField> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(width: 16),
-              ElevatedButton.icon(
-                onPressed: isLoading ? null : fetchEvents,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Reload'),
+              Row(
+                children: [
+                  Checkbox(
+                    value: isError,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isError = value ?? false;
+                        currentPage = 1; // Reset to first page
+                      });
+                      fetchEvents();
+                    },
+                  ),
+                  const Text('Show Errors Only'),
+                  const SizedBox(width: 16),
+                  ElevatedButton.icon(
+                    onPressed: isLoading ? null : fetchEvents,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Reload'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -131,7 +143,7 @@ class _HistoryFieldState extends State<HistoryField> {
           if (isLoading)
             const Center(child: CircularProgressIndicator())
           else
-            buildHistoryTable(),
+            Center(child: buildHistoryTable()),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -172,8 +184,6 @@ class _HistoryFieldState extends State<HistoryField> {
           DataColumn(label: Text('Trailer LP')),
           DataColumn(label: Text('CONT1')),
           DataColumn(label: Text('CONT2')),
-          DataColumn(label: Text('Damage')),
-          DataColumn(label: Text('Action')),
         ],
         rows: eventsAi.map((event) {
           return DataRow(
@@ -181,29 +191,28 @@ class _HistoryFieldState extends State<HistoryField> {
               (Set<MaterialState> states) {
                 if (event.eventId == selectedEventId) {
                   return Colors.blue[100]; // Highlight selected row
-                } else if (event.isDamage) {
+                } else if (isError || event.isError == true) {
                   return Colors.red[100];
+                } else if (event.imgDoor1 != null || event.imgFront1 != null) {
+                  return Colors.green[100];
                 }
                 return null;
               },
             ),
             cells: [
-              DataCell(Text(event.timeInOut)),
-              DataCell(Text(event.tractorLicensePlate ?? '-')),
-              DataCell(Text(event.trailerLicensePlate ?? '-')),
-              DataCell(Text(event.containerCode1 ?? '-')),
-              DataCell(Text(event.containerCode2 ?? '-')),
-              DataCell(Text(event.isDamage ? 'Yes' : 'No')),
-              DataCell(
-                IconButton(
-                  icon: const Icon(Icons.visibility),
-                  onPressed: () => onViewEvent(event),
-                ),
-              ),
+              buildHistoryCell(event.timeInOut, event),
+              buildHistoryCell(event.tractorLicensePlate ?? '-', event),
+              buildHistoryCell(event.trailerLicensePlate ?? '-', event),
+              buildHistoryCell(event.containerCode1 ?? '-', event),
+              buildHistoryCell(event.containerCode2 ?? '-', event),
             ],
           );
         }).toList(),
       ),
     );
+  }
+
+  DataCell buildHistoryCell(String text, EventAi event) {
+    return DataCell(Text(text), onTap: () => onViewEvent(event));
   }
 }

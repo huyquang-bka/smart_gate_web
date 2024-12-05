@@ -11,7 +11,6 @@ class EventAi {
   final String timeInOut;
   final String? tractorLicensePlate;
   final String? trailerLicensePlate;
-  final bool isDamage;
 
   String? imgDoor1;
   String? imgDoor2;
@@ -32,7 +31,7 @@ class EventAi {
   String? vidTop;
   String? vidTractor;
   String? vidTrailer;
-
+  bool? isError;
   EventAi({
     required this.eventId,
     required this.checkPointId,
@@ -40,7 +39,6 @@ class EventAi {
     required this.timeInOut,
     required this.tractorLicensePlate,
     required this.trailerLicensePlate,
-    required this.isDamage,
     required this.containerCode2,
     this.imgDoor1,
     this.imgDoor2,
@@ -61,6 +59,7 @@ class EventAi {
     this.vidTop,
     this.vidTractor,
     this.vidTrailer,
+    this.isError = false,
   });
 
   factory EventAi.fromJson(Map<String, dynamic> json) {
@@ -91,7 +90,7 @@ class EventAi {
       vidTop: json['VidTop'] as String?,
       vidTractor: json['VidTractor'] as String?,
       vidTrailer: json['VidTrailer'] as String?,
-      isDamage: !json['listDmg'].isEmpty,
+      isError: json['IsError'] as bool?,
     );
   }
 
@@ -123,7 +122,7 @@ class EventAi {
       'VidTop': vidTop,
       'VidTractor': vidTractor,
       'VidTrailer': vidTrailer,
-      'isDamage': isDamage,
+      'IsError': isError,
     };
   }
 }
@@ -137,6 +136,5 @@ EventAi eventWebToEventAi(EventWeb eventWeb) {
     timeInOut: eventWeb.timeInOutFormat,
     tractorLicensePlate: eventWeb.tractorLicensePlate,
     trailerLicensePlate: eventWeb.trailerLicensePlate,
-    isDamage: eventWeb.isDamage,
   );
 }
